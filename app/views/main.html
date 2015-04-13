@@ -1,9 +1,9 @@
-<div class="jumbotron">
-  <h2>Welcome to smove's JSChallenge!</h2>
-  <p class="lead">
-    Now it's your turn.</br>
-    Blow us away with your awesomeness.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-  <p>ps. go have a look at main.js for the api call</p>
-</div>
+<h2>Available Cars</h2>
+<p>There are {{stats.totalAvailableCars}} cars available</p>
+
+<ul ng-repeat="car in availableCars">
+  <li>
+    {{car.cars_available}} in {{car.parking_name}}<br/>
+    <small>{{car.latitude}} / {{car.longitude}}</small>
+  </li>
+</ul>
