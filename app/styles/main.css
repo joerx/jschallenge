@@ -1,3 +1,19 @@
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  height: 100%;
+  padding: 0;
+}
+
+.results {
+  height: 100%;
+  overflow: auto;
+  padding-top: 5px;
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -5,8 +21,14 @@
   padding: 0.2em 0;
 }
 
-body {
+html, body, .main-container {
   padding: 0;
+  height: 100%;
+}
+
+body {
+  padding-top: 60px;
+  padding-bottom: 50px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -19,9 +41,21 @@ body {
 
 /* Custom page header */
 .header {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
   border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
 }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
@@ -74,7 +108,7 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
