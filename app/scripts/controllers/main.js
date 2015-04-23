@@ -9,22 +9,75 @@
  */
 angular.module('jschallengeApp')
 
+.directive('carMap', function() {
+  return {
+    restrict: 'AE',
+    scope: {
+      availableCars: '='
+    },
+    template: '<div id="car-map" class="map"></div>',
+    controller: function($scope, $element, $attrs, $transclude) {
+
+      var map, carLayer, geoJson;
+
+      function carToFeature(car) {
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [
+              car.longitude,
+              car.latitude
+            ]
+          },
+          properties: {
+            'title': car.parking_name,
+            'marker-color': '#9c89cc',
+            'marker-size': 'medium',
+            'marker-symbol': 'car'
+          }
+        }
+      }
+
+      function addMarkersToMap() {
+        geoJson = [{
+          type: 'FeatureCollection',
+          features: $scope.availableCars.map(carToFeature)
+        }];
+        carLayer = L.mapbox.featureLayer().addTo(map);
+        carLayer.setGeoJSON(geoJson);
+      }
+
+      function initMap() {
+        L.mapbox.accessToken = 'pk.eyJ1Ijoiam9lcmdoZW5uaW5nIiwiYSI6IlpoLWVrb0EifQ.x8NjGUAXZUe9mJHs4AFXKw';
+        map = L.mapbox.map('car-map', 'mapbox.streets');
+        map.setView([1.303, 103.788], 12);
+      }
+
+      initMap();
+      $scope.$watch('availableCars', addMarkersToMap);
+    }
+  }
+})
+
 .controller('MainCtrl', function($scope, $http, $interval) {
 
   // Query for a booking in 1 day from now, for 2 hours.
   var start = Date.now() + 24 * 3600 * 1000;
   var end = start + 2 * 3600 * 1000;
   var url = 'http://jschallenge.smove.sg/provider/1/availability?book_start=' + start + '&book_end=' + end;
-  var stop = function() {/*noop*/};
+  var map;
+
+  $scope.start = new Date(start);
+  $scope.end = new Date(end);
 
   $scope.availableCars = [];
   $scope.stats = {};
 
   function getAvailableCars() {
-    console.log('Fetching available cars...');
     $http.get(url)
       .success(function(result) {
-        console.log('Result from the API call:', JSON.stringify(result));
+        // console.log('Result from the API call:', JSON.stringify(result));
         $scope.availableCars = result;
         $scope.stats.totalAvailableCars = result.reduce(function(previous, current) {
           return previous + current.cars_available || 0;
@@ -36,8 +89,8 @@ angular.module('jschallengeApp')
       });
   }
 
-
   // getAvailableCars();
+
   // debug only
   $scope.availableCars = [{
     "deleted":0,
