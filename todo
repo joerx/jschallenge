@@ -1,7 +1,9 @@
 x add markers to map
-- refactor getAvailableCars to service
-- notifications
-- connect form controls to search result
-- dark theme
+x notifications
+x connect form controls to search result
+x loading animations
 - responsiveness
+- refactor getAvailableCars to service
+- dark theme
 - specs
+- form live validation
