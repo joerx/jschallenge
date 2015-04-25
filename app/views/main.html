@@ -1,21 +1,97 @@
 <div class="col-md-3 results">
 
-  <form name="query-form">
-    <div class="form-group">
-      <datetimepicker ng-model="search.start"/>
+  <form name="queryForm" novalidate>
+
+    <!-- Selector for start date -->
+    <div class="form-group" ng-class="{'has-error': queryForm.dateStart.$invalid}">
+      <label for="dropdownDateStart">Start:</label>
+      <div class="dropdown">
+        <a class="dropdown-toggle"
+            id="dropdownDateStart"
+            role="button"
+            data-toggle="dropdown"
+            data-target="#"
+            href="#">
+          <div class="input-group">
+            <input type="text"
+              class="form-control"
+              data-ng-model="search.start"
+              name="dateStart"
+              date-before="search.end">
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+          </div>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <datetimepicker
+            data-ng-model="search.start"
+            data-datetimepicker-config="{dropdownSelector: '#dropdownDateStart'}">
+          </datetimepicker>
+        </ul>
+      </div>
+      <p ng-show="queryForm.dateStart.$error.date" class="help-block">
+        Must be before end date
+      </p>
     </div>
-    <div class="form-group">
-      <datetimepicker ng-model="search.end"/>
+
+    <!-- Selector for end date -->
+    <div class="form-group" ng-class="{'has-error': queryForm.dateEnd.$invalid}">
+      <label for="dropdownDateEnd">End:</label>
+      <div class="dropdown">
+        <a class="dropdown-toggle"
+            id="dropdownDateEnd"
+            role="button"
+            data-toggle="dropdown"
+            data-target="#"
+            href="#">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              data-ng-model="search.end"
+              name="dateEnd"
+              date-after="search.start">
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+          </div>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <datetimepicker
+            data-ng-model="search.end"
+            data-datetimepicker-config="{dropdownSelector: '#dropdownDateEnd'}">
+          </datetimepicker>
+        </ul>
+      </div>
+      <p ng-show="queryForm.dateEnd.$error.date" class="help-block">
+        Must be after start date
+      </p>
     </div>
+
+    <!-- Submit -->
     <div class="form-group">
-      <button type="submit" class="btn btn-default" ng-click="update()">Update</button>
+      <button
+        type="submit"
+        class="btn btn-default"
+        ng-click="update()"
+        ng-disabled="queryForm.$invalid"
+        >
+        Update
+      </button>
     </div>
   </form>
 
+  <!-- Loader animation -->
   <div class="loader" ng-show="loading">
   </div>
 
-  <ul class="list-group" ng-show="!loading">
+  <div ng-show="!loading && !hasCars">
+    No cars available for selected period. Please try another!
+  </div>
+
+  <!-- Result list -->
+  <ul class="list-group" ng-show="!loading && hasCars">
     <li ng-repeat="car in availableCars" class="list-group-item">
       <span class="badge">{{car.cars_available}}</span>
       <h4 class="list-group-item-heading">
@@ -26,8 +102,6 @@
       </p>
     </li>
   </ul>
-
-
 </div>
 
 <div class="col-md-9 map-container" car-map available-cars="availableCars">

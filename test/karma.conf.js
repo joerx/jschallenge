@@ -23,11 +23,11 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/mapbox.js/mapbox.js',
-      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'bower_components/angular-ui-bootstrap-datetimepicker/datetimepicker.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/ngtoast/dist/ngToast.js',
+      'bower_components/moment/moment.js',
+      'bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -10,7 +10,7 @@
  */
 angular
 
-.module('jschallengeApp', ['ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ngToast'])
+.module('jschallengeApp', ['ui.bootstrap.datetimepicker', 'ngToast'])
 
 // Display toasts on top center position, max 3 toasts at a time
 .config(['ngToastProvider', function(ngToast) {

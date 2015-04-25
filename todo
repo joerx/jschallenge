@@ -2,8 +2,11 @@ x add markers to map
 x notifications
 x connect form controls to search result
 x loading animations
-- responsiveness
-- refactor getAvailableCars to service
+x responsiveness
+x refactor getAvailableCars to service
+x form live validation
+x 0 cars available?
+- additional date validations (not in past)
+- click on car in list - focus marker on map
 - dark theme
 - specs
-- form live validation
