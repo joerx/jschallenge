@@ -20,6 +20,7 @@ angular.module('jschallengeApp')
   $scope.loading = false;
   $scope.hasCars = false;
   $scope.selectedCar = null;
+  $scope.today = new Date();
 
   $scope.search = {
     start: new Date(start),
@@ -30,7 +31,6 @@ angular.module('jschallengeApp')
     $scope.loading = true;
     availableCars($scope.search)
       .then(function(result) {
-        // console.log(result);
         $scope.availableCars = result.cars;
         $scope.hasCars = result.total > 0;
         if (result.total > 0) {
@@ -49,14 +49,14 @@ angular.module('jschallengeApp')
 
   $scope.setSelectedCar = function setSelectedCar(car) {
     $scope.selectedCar = car;
-  }
+  };
 
   $scope.carSelectedOnMap = function carSelectedOnMap(car) {
     $scope.setSelectedCar(car);
     $scope.$digest();
     $location.hash('car-' + car.id);
     $anchorScroll(); // still some trouble with offset here
-  }
+  };
 
   $scope.update = getCars;
   getCars();

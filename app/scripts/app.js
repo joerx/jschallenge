@@ -41,5 +41,5 @@ angular
 
   return function(type, msg) {
     _doNotify(type, null, msg);
-  }
+  };
 });

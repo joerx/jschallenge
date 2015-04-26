@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('jschallengeApp')
 
 /**
@@ -15,13 +17,15 @@ angular.module('jschallengeApp')
       onCarSelected: '='
     },
     template: '<div id="car-map" class="map"></div>',
-    controller: function($scope, $element, $attrs, $transclude) {
+    controller: function($scope) {
+
+      // mute jslint warnings
+      var L = window.L;
+      var map;
+      var markers = [];
+      var selectedMarker = null;
 
       L.mapbox.accessToken = 'pk.eyJ1Ijoiam9lcmdoZW5uaW5nIiwiYSI6IlpoLWVrb0EifQ.x8NjGUAXZUe9mJHs4AFXKw';
-
-      var map, geoJson;
-      var markers = [], cars = [];
-      var selectedMarker = null;
 
       var defaultIcon = L.mapbox.marker.icon({
         'marker-color': '#9c89cc',
@@ -37,39 +41,23 @@ angular.module('jschallengeApp')
 
       $scope.$watch('selectedCar', function() {
         // null if nothing selected or undefined if attribute 'selected-car' not set
-        if (!$scope.selectedCar) return;
+        if (!$scope.selectedCar) {
+          return;
+        }
         // find marker for this car (find() is FFX only, filter() is the next best thing)
         var target = markers.filter(function(marker) {
           return marker.car === $scope.selectedCar;
         })[0];
+
         setMarkerSelected(target);
       });
 
-      // converts an available car as returned by server into a feature for the map
-      function carToFeature(car) {
-        return {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              car.longitude,
-              car.latitude
-            ]
-          },
-          properties: {
-            'title': car.parking_name,
-            'marker-color': '#9c89cc',
-            'marker-size': 'medium',
-            'marker-symbol': 'car'
-          }
-        }
-      }
 
       function clearMarkers() {
-        // use for-loop instead of forEach so we iterate & clear the list in one sweep
-        for(var marker = null; markers.length > 0; marker = markers.pop()) {
+        markers.forEach(function(marker) {
           map.removeLayer(marker);
-        }
+        });
+        markers = [];
       }
 
       function clickHandler(car) {
@@ -80,7 +68,7 @@ angular.module('jschallengeApp')
           } else {
             console.warn('Invalid handler type: ' + (typeof $scope.onCarSelected));
           }
-        }
+        };
       }
 
       function setMarkerSelected(target) {
@@ -104,7 +92,7 @@ angular.module('jschallengeApp')
           );
           marker.addTo(map);
           marker.car = car; // need to memoize in case selected car changes outside
-          marker.setPopupContent('<p>' + car.parking_name + '</p>');
+          marker.setPopupContent('<p>' + car.parking_name + '</p>'); // jshint ignore:line
           marker.on('click', clickHandler(car));
           markers.push(marker);
         });
@@ -121,5 +109,5 @@ angular.module('jschallengeApp')
       initMap();
       $scope.$watch('availableCars', addMarkersToMap);
     }
-  }
+  };
 });
