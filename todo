@@ -7,6 +7,7 @@ x refactor getAvailableCars to service
 x form live validation
 x 0 cars available?
 - additional date validations (not in past)
-- click on car in list - focus marker on map
+x click on car in list - focus marker on map
+- fix scroll offset
 - dark theme
 - specs

@@ -92,11 +92,17 @@
 
   <!-- Result list -->
   <ul class="list-group" ng-show="!loading && hasCars">
-    <li ng-repeat="car in availableCars" class="list-group-item">
+    <li
+      class="list-group-item"
+      ng-repeat="car in availableCars"
+      ng-class="{active: selectedCar == car}"
+      ng-click="setSelectedCar(car)">
       <span class="badge">{{car.cars_available}}</span>
-      <h4 class="list-group-item-heading">
-        {{car.parking_shortname}}
-      </h4>
+      <a id="car-{{car.id}}">
+        <h4 class="list-group-item-heading">
+          {{car.parking_shortname}}
+        </h4>
+      </a>
       <p class="list-group-item-text">
         {{car.parking_name}}
       </p>
@@ -104,5 +110,9 @@
   </ul>
 </div>
 
-<div class="col-md-9 map-container" car-map available-cars="availableCars">
+<div class="col-md-9 map-container"
+  car-map
+  available-cars="availableCars"
+  selected-car="selectedCar"
+  on-car-selected="carSelectedOnMap">
 </div>

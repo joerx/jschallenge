@@ -9,7 +9,8 @@
  */
 angular.module('jschallengeApp')
 
-.controller('MainCtrl', function($scope, $http, $interval, notify, availableCars) {
+.controller('MainCtrl', function(
+  $scope, $http, $interval, $location, $anchorScroll, notify, availableCars) {
 
   // default to a booking in 1 day from now, for 2 hours.
   var start = Date.now() + 24 * 3600 * 1000;
@@ -18,6 +19,7 @@ angular.module('jschallengeApp')
   $scope.availableCars = [];
   $scope.loading = false;
   $scope.hasCars = false;
+  $scope.selectedCar = null;
 
   $scope.search = {
     start: new Date(start),
@@ -28,6 +30,7 @@ angular.module('jschallengeApp')
     $scope.loading = true;
     availableCars($scope.search)
       .then(function(result) {
+        // console.log(result);
         $scope.availableCars = result.cars;
         $scope.hasCars = result.total > 0;
         if (result.total > 0) {
@@ -42,6 +45,17 @@ angular.module('jschallengeApp')
       .finally(function() {
         $scope.loading = false;
       });
+  }
+
+  $scope.setSelectedCar = function setSelectedCar(car) {
+    $scope.selectedCar = car;
+  }
+
+  $scope.carSelectedOnMap = function carSelectedOnMap(car) {
+    $scope.setSelectedCar(car);
+    $scope.$digest();
+    $location.hash('car-' + car.id);
+    $anchorScroll(); // still some trouble with offset here
   }
 
   $scope.update = getCars;
