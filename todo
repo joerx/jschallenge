@@ -6,8 +6,14 @@ x responsiveness
 x refactor getAvailableCars to service
 x form live validation
 x 0 cars available?
-- additional date validations (not in past)
+x additional date validations (not in past)
 x click on car in list - focus marker on map
-- fix scroll offset
+x fix scroll offset
 - dark theme
 - specs
+
+Limitations:
+- Layout is somewhat responsive, but not really useful on mobiles
+- Lack of specs
+- Scroll to selected car works is a bit awkward
+- Marker popups are not shown
